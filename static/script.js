@@ -11,6 +11,10 @@ const MAX_SIZE = 10 * 1024 * 1024;
 let previewUrl = null;
 let selectedFile = null;
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>\"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[char]));
+}
+
 function showMessage(text, isError = false) {
   message.textContent = text;
   message.style.color = isError ? '#a24b42' : '';
@@ -25,7 +29,7 @@ function clearImage() {
   previewWrap.classList.add('hidden');
   result.classList.add('hidden');
   analyzeButton.disabled = true;
-  analyzeButton.textContent = 'تحقق من الصورة عبر الخادم ←';
+  analyzeButton.textContent = 'تحليل الصورة بالنموذج ←';
   showMessage('اختر صورة لتظهر المعاينة هنا.');
 }
 
@@ -50,8 +54,8 @@ function loadImage(file) {
   imageMeta.textContent = `${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
   previewWrap.classList.remove('hidden');
   analyzeButton.disabled = false;
-  analyzeButton.textContent = 'التحقق من الصورة عبر الخادم ←';
-  showMessage('تمت معاينة الصورة. عند المتابعة ستُرسل للخادم للتحقق من الملف فقط، ولن تُصنّف بعد.');
+  analyzeButton.textContent = 'التحليل الصورة بالنموذج ←';
+  showMessage('تمت معاينة الصورة. عند المتابعة سيحاول النموذج اكتشاف الفئات التي تدرب عليها.');
 }
 
 input.addEventListener('change', () => loadImage(input.files && input.files[0]));
@@ -85,15 +89,18 @@ analyzeButton.addEventListener('click', async () => {
     const response = await fetch('/api/predict', { method: 'POST', body: formData });
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || 'حدث خطأ أثناء التحقق من الصورة.');
-    result.textContent = `${data.message} أبعاد الصورة: ${data.image.width} × ${data.image.height} بكسل. لم يتم حفظ الصورة في ملف بواسطة التطبيق.`;
+    const rows = (data.detections || []).map((item, index) =>
+      `<div class="detection-row"><strong>${index + 1}. ${escapeHtml(item.class_name)}</strong><span>${(item.confidence * 100).toFixed(1)}%</span><small>الصندوق: ${item.box.map(n => Math.round(n)).join(', ')}</small></div>`
+    ).join('');
+    result.innerHTML = `<strong>${escapeHtml(data.message || 'اكتمل التحليل')}</strong><p>أبعاد الصورة: ${data.image.width} × ${data.image.height} بكسل · عدد الاكتشافات: ${data.detection_count ?? 0}</p>${rows || '<p>لم يعثر النموذج على فئات تتجاوز حد الثقة الحالي.</p>'}<p class="model-notice">${escapeHtml(data.notice || '')}</p>`;
     result.classList.remove('hidden');
-    showMessage('اكتمل التحقق من الملف. التصنيف الآلي غير متاح حتى ربط نموذج مدرّب.');
+    showMessage('انتهى التحليل التجريبي. راجع تنبيه حدود النموذج أسفل النتائج.');
   } catch (error) {
     result.textContent = error.message || 'تعذر الاتصال بالخادم. تحقق من نشر الموقع ثم حاول مجدداً.';
     result.classList.remove('hidden');
     showMessage('لم تكتمل العملية.', true);
   } finally {
     analyzeButton.disabled = !selectedFile;
-    analyzeButton.textContent = 'التحقق من الصورة عبر الخادم ←';
+    analyzeButton.textContent = 'التحليل الصورة بالنموذج ←';
   }
 });

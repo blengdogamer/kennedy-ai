@@ -20,16 +20,16 @@
   <main class="layout">
     <section class="intro">
       <p class="tagline">KENNEDY CLASSIFICATION · COMPUTER VISION</p>
-      <h2>حلّل صورة الفك<br /><span>ضمن واجهة واحدة بسيطة</span></h2>
-      <p class="intro-copy">ارفع صورة واضحة للفك أو الأسنان لمعاينتها والتحقق من سلامة الملف عبر الخادم. سيُربط نموذج الذكاء الاصطناعي بعد تجهيز بيانات تدريب موثوقة.</p>
-      <div class="notice"><strong>تنبيه:</strong> هذه نسخة تجريبية وليست أداة تشخيص طبي. الخادم يتحقق من ملف الصورة فقط حالياً؛ لن يصدر تصنيفاً أو نسبة ثقة قبل ربط نموذج مدرّب والتحقق من أدائه. لا ترفع صور مرضى حقيقية في هذه المرحلة.</div>
+      <h2>اكتشف علامات الأشعة<br /><span>باستخدام النموذج المدرّب</span></h2>
+      <p class="intro-copy">ارفع صورة أشعة بانورامية (OPG) ليحاول النموذج اكتشاف الفئات التي تدرب عليها.</p>
+      <div class="notice"><strong>تنبيه:</strong> هذه نسخة تجريبية وليست أداة تشخيص طبي. النموذج يكتشف 10 فئات في مجموعة التدريب، ولا يصنف Kennedy I–IV مباشرةً. النتائج قد تكون خاطئة، ولا ترفع صور مرضى حقيقية.</div>
     </section>
 
     <section class="workspace" aria-labelledby="upload-title">
       <div class="section-heading">
         <div>
           <p class="step-label">الخطوة 01</p>
-          <h2 id="upload-title">ارفع صورة للفك</h2>
+          <h2 id="upload-title">ارفع صورة أشعة OPG</h2>
         </div>
         <span class="file-types">JPG · PNG · WEBP</span>
       </div>
@@ -49,7 +49,7 @@
       </div>
 
       <p id="message" class="message" role="status" aria-live="polite">اختر صورة لتظهر المعاينة هنا.</p>
-      <button id="analyzeButton" class="primary-button" type="button" disabled>التحقق من الصورة عبر الخادم <span aria-hidden="true">←</span></button>
+      <button id="analyzeButton" class="primary-button" type="button" disabled>تحليل الصورة بالنموذج <span aria-hidden="true">←</span></button>
       <div id="result" class="result hidden" role="status" aria-live="polite"></div>
     </section>
 
@@ -68,7 +68,7 @@
     </section>
   </main>
 
-  <footer>نسخة تجريبية · Kennedy AI · تُرسل الصورة للخادم عند الضغط على زر التحقق؛ التطبيق لا يحفظها في ملف، لكن لا تستخدم صور مرضى حقيقية في هذه المرحلة.</footer>
+  <footer>نسخة تجريبية · Kennedy AI · تُرسل الصورة للخادم للتحليل عند الضغط على الزر. النموذج تجريبي ولا يعطي تصنيف Kennedy I–IV مباشرةً؛ لا ترفع صور مرضى حقيقية.</footer>
   <script src="/assets/script.js"></script>
 </body>
 </html>
