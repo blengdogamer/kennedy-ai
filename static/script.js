@@ -15,6 +15,23 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>\"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[char]));
 }
 
+const arabicClasses = {
+  Broken_Root: "جذر مكسور",
+  PCT: "تاج جزئي",
+  Free_R_Max: "امتداد خلفي حر — الفك العلوي الأيمن",
+  Free_L_Max: "امتداد خلفي حر — الفك العلوي الأيسر",
+  Not_Free_Max: "فقد أسنان غير حر — الفك العلوي",
+  Not_Free_Center_Max: "فقد أسنان غير حر مركزي — الفك العلوي",
+  Free_R_Mand: "امتداد خلفي حر — الفك السفلي الأيمن",
+  Free_L_Mand: "امتداد خلفي حر — الفك السفلي الأيسر",
+  Not_Free_Mand: "فقد أسنان غير حر — الفك السفلي",
+  Not_Free_Center_Mand: "فقد أسنان غير حر مركزي — الفك السفلي"
+};
+
+function getArabicClass(className) {
+  return arabicClasses[className] || className;
+}
+
 function showMessage(text, isError = false) {
   message.textContent = text;
   message.style.color = isError ? '#a24b42' : '';
@@ -90,7 +107,7 @@ analyzeButton.addEventListener('click', async () => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.detail || 'حدث خطأ أثناء التحقق من الصورة.');
     const rows = (data.detections || []).map((item, index) =>
-      `<div class="detection-row"><strong>${index + 1}. ${escapeHtml(item.class_name)}</strong><span>${(item.confidence * 100).toFixed(1)}%</span><small>الصندوق: ${item.box.map(n => Math.round(n)).join(', ')}</small></div>`
+      `<div class="detection-row"><strong>${index + 1}. ${escapeHtml(getArabicClass(item.class_name))}</strong><span>${(item.confidence * 100).toFixed(1)}%</span><small>الصندوق: ${item.box.map(n => Math.round(n)).join(', ')}</small></div>`
     ).join('');
     result.innerHTML = `<strong>${escapeHtml(data.message || 'اكتمل التحليل')}</strong><p>أبعاد الصورة: ${data.image.width} × ${data.image.height} بكسل · عدد الاكتشافات: ${data.detection_count ?? 0}</p>${rows || '<p>لم يعثر النموذج على فئات تتجاوز حد الثقة الحالي.</p>'}<p class="model-notice">${escapeHtml(data.notice || '')}</p>`;
     result.classList.remove('hidden');
