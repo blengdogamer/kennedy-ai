@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#123b42" />
+  <title>مساعد تصنيف فقدان الأسنان | Kennedy AI</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">K</div>
+    <div>
+      <p class="eyebrow">مشروع تعليمي في الرؤية الحاسوبية</p>
+      <h1>مساعد تصنيف فقدان الأسنان</h1>
+    </div>
+    <span class="status"><span class="status-dot"></span> نسخة تجريبية متصلة بالخادم</span>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="tagline">KENNEDY CLASSIFICATION · COMPUTER VISION</p>
+      <h2>حلّل صورة الفك<br /><span>ضمن واجهة واحدة بسيطة</span></h2>
+      <p class="intro-copy">ارفع صورة واضحة للفك أو الأسنان لمعاينتها والتحقق من سلامة الملف عبر الخادم. سيُربط نموذج الذكاء الاصطناعي بعد تجهيز بيانات تدريب موثوقة.</p>
+      <div class="notice"><strong>تنبيه:</strong> هذه نسخة تجريبية وليست أداة تشخيص طبي. الخادم يتحقق من ملف الصورة فقط حالياً؛ لن يصدر تصنيفاً أو نسبة ثقة قبل ربط نموذج مدرّب والتحقق من أدائه. لا ترفع صور مرضى حقيقية في هذه المرحلة.</div>
+    </section>
+
+    <section class="workspace" aria-labelledby="upload-title">
+      <div class="section-heading">
+        <div>
+          <p class="step-label">الخطوة 01</p>
+          <h2 id="upload-title">ارفع صورة للفك</h2>
+        </div>
+        <span class="file-types">JPG · PNG · WEBP</span>
+      </div>
+
+      <label class="dropzone" id="dropzone" for="imageInput">
+        <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" />
+        <span class="upload-icon" aria-hidden="true">↑</span>
+        <strong>اضغط لاختيار صورة</strong>
+        <span class="drop-help">أو اسحب الصورة وأسقطها هنا</span>
+        <span class="drop-limit">الحد الأقصى المقترح: 10 ميغابايت</span>
+      </label>
+
+      <div class="preview-wrap hidden" id="previewWrap">
+        <div class="preview-header"><strong>معاينة الصورة</strong><button type="button" class="text-button" id="removeImage">إزالة الصورة</button></div>
+        <img id="imagePreview" alt="معاينة الصورة المختارة" />
+        <p id="imageMeta" class="image-meta"></p>
+      </div>
+
+      <p id="message" class="message" role="status" aria-live="polite">اختر صورة لتظهر المعاينة هنا.</p>
+      <button id="analyzeButton" class="primary-button" type="button" disabled>التحقق من الصورة عبر الخادم <span aria-hidden="true">←</span></button>
+      <div id="result" class="result hidden" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="classes-section">
+      <div class="section-heading section-heading--classes">
+        <div><p class="step-label">مرجع تعليمي</p><h2>الفئات الأربع الأساسية</h2></div>
+        <span class="reference-pill">Kennedy I–IV</span>
+      </div>
+      <div class="class-grid">
+        <article class="class-card"><span class="class-number">I</span><div><h3>الصنف الأول</h3><p>فقد خلفي على الجانبين.</p></div></article>
+        <article class="class-card"><span class="class-number">II</span><div><h3>الصنف الثاني</h3><p>فقد خلفي على جانب واحد.</p></div></article>
+        <article class="class-card"><span class="class-number">III</span><div><h3>الصنف الثالث</h3><p>منطقة فقد محصورة بين أسنان متبقية.</p></div></article>
+        <article class="class-card"><span class="class-number">IV</span><div><h3>الصنف الرابع</h3><p>منطقة فقد أمامية تعبر الخط المتوسط.</p></div></article>
+      </div>
+      <p class="disclaimer-small">هذا المرجع للتوضيح فقط. تحديد الفئة سريرياً يعتمد على حالة الفك كاملةً وتقييم مختص، ولا تكفي أي صورة غير مناسبة أو غير واضحة بالضرورة.</p>
+    </section>
+  </main>
+
+  <footer>نسخة تجريبية · Kennedy AI · تُرسل الصورة للخادم عند الضغط على زر التحقق؛ التطبيق لا يحفظها في ملف، لكن لا تستخدم صور مرضى حقيقية في هذه المرحلة.</footer>
+  <script src="/assets/script.js"></script>
+</body>
+</html>
